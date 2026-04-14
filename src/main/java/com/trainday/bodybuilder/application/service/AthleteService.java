@@ -1,6 +1,6 @@
 package com.trainday.bodybuilder.application.service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -40,29 +40,32 @@ public class AthleteService {
         athlete.setAge(reqAthlete.age());
         athlete.setHeight(reqAthlete.height());
         athlete.setWeight(reqAthlete.weight());
-        athlete.setPercentageFat(reqAthlete.percentagefat());
+        athlete.setpercentageFat(reqAthlete.percentageFat());
         athlete.setUserId(user.getId());
 
 
         return athleterepository.save(athlete);
         
     }
+    public AthleteResponse getAthleteById(String id) {
+     
+        Athlete athlete = new Athlete();
 
-   public List<AthleteResponse> searchAthlete(){
-        return athleterepository.findAll()
-                .stream()
-                .map(a -> new AthleteResponse(
-                    a.getId(),
-                    a.getCPF(),
-                    a.getName(),
-                    a.getEmail(),
-                    a.getAge(),
-                    a.getHeight(),
-                    a.getWeight(),
-                    a.getpercentageFat()
-                ))
-                .toList(); // MUITO IMPORTANTE
+        return new AthleteResponse(
+            athlete.getId(),
+            athlete.getCPF(),
+            athlete.getName(),
+            athlete.getEmail(),
+            athlete.getAge(),
+            athlete.getHeight(),
+            athlete.getWeight(),
+            athlete.getpercentageFat()
+    );
+  
     }
+
+
+
 
      public Athlete updateAthlete(String id,  AthleteRequest updateAthlete){
            Athlete existAthlete = athleterepository.findById(id)
@@ -86,8 +89,8 @@ public class AthleteService {
             Optional.ofNullable(updateAthlete.weight())
                 .ifPresent(existAthlete::setWeight);
 
-            Optional.ofNullable(updateAthlete.percentagefat())
-                .ifPresent(existAthlete::setPercentageFat);    
+            Optional.ofNullable(updateAthlete.percentageFat())
+                .ifPresent(existAthlete::setpercentageFat);    
                 
                 return athleterepository.save(existAthlete);
      }

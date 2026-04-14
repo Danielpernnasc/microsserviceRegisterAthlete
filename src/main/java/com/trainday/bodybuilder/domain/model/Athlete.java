@@ -2,6 +2,7 @@ package com.trainday.bodybuilder.domain.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 
 
@@ -16,13 +17,14 @@ public class Athlete {
     private Long age;
     private Double height;
     private Double weight;
-    private Long percentagefat;
-   private String userId;
+    @Field("percentagefat")
+    private Long percentageFat;
+    private String userId;
 
     public Athlete(){}
 
     public Athlete(
-        String id, String cpf, String name, String email, Long age, Double height, Double weight, Long percentagefat, String userId
+        String id, String cpf, String name, String email, Long age, Double height, Double weight, Long percentageFat, String userId
     ){
         this.id = id;
         this.cpf = cpf;
@@ -31,7 +33,7 @@ public class Athlete {
         this.age = age;
         this.height = height;
         this.weight = weight;
-        this.percentagefat = percentagefat;
+        this.percentageFat = percentageFat;
         this.userId = userId;
     }
 
@@ -93,11 +95,11 @@ public class Athlete {
     }
 
     public Long getpercentageFat(){
-        return percentagefat;
+        return percentageFat;
     }
 
-    public void setPercentageFat(Long percentagefat){
-        this.percentagefat = percentagefat;
+    public void setpercentageFat(Long percentageFat){
+        this.percentageFat = percentageFat;
     }
 
     public String getUserId(){
