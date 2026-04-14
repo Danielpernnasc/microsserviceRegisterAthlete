@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.trainday.bodybuilder.api.DTO.request.AthleteRequest;
-import com.trainday.bodybuilder.api.DTO.response.AthleteResponse;
+
 import com.trainday.bodybuilder.domain.model.Athlete;
 import com.trainday.bodybuilder.domain.model.Login;
 import com.trainday.bodybuilder.domain.repository.AthleteRepository;
@@ -40,28 +40,16 @@ public class AthleteService {
         athlete.setAge(reqAthlete.age());
         athlete.setHeight(reqAthlete.height());
         athlete.setWeight(reqAthlete.weight());
-        athlete.setpercentageFat(reqAthlete.percentageFat());
+        athlete.setPercentageFat(reqAthlete.percentageFat());
         athlete.setUserId(user.getId());
 
 
         return athleterepository.save(athlete);
         
     }
-    public AthleteResponse getAthleteById(String id) {
-     
-        Athlete athlete = new Athlete();
-
-        return new AthleteResponse(
-            athlete.getId(),
-            athlete.getCPF(),
-            athlete.getName(),
-            athlete.getEmail(),
-            athlete.getAge(),
-            athlete.getHeight(),
-            athlete.getWeight(),
-            athlete.getpercentageFat()
-    );
-  
+    public Athlete getAthleteById(String id) {
+        return athleterepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(ATHLETE_NOT_FOUND + id));
     }
 
 
@@ -90,7 +78,8 @@ public class AthleteService {
                 .ifPresent(existAthlete::setWeight);
 
             Optional.ofNullable(updateAthlete.percentageFat())
-                .ifPresent(existAthlete::setpercentageFat);    
+                .ifPresent(existAthlete::setPercentageFat);
+
                 
                 return athleterepository.save(existAthlete);
      }

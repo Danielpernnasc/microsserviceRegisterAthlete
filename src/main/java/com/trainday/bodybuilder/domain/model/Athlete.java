@@ -94,11 +94,11 @@ public class Athlete {
         this.weight = weight;
     }
 
-    public Long getpercentageFat(){
+    public Long getPercentageFat(){
         return percentageFat;
     }
 
-    public void setpercentageFat(Long percentageFat){
+    public void setPercentageFat(Long percentageFat){
         this.percentageFat = percentageFat;
     }
 
