@@ -45,8 +45,7 @@ public class AthleteController {
 
     @GetMapping("/{id}")
       public AthleteResponse findById(@PathVariable String id) {
-        // Athlete athlete = new Athlete();
-        return service.getAthleteById(id);
+         return service.getAthleteById(id);
     
     }
 

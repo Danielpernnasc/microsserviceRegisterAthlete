@@ -110,8 +110,4 @@ public class Athlete {
         this.userId = userId;
     }
 
-
-
-
-
 }

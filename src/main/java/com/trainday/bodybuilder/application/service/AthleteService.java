@@ -48,8 +48,9 @@ public class AthleteService {
         
     }
     public AthleteResponse getAthleteById(String id) {
-     
-        Athlete athlete = new Athlete();
+        
+        Athlete athlete = athleterepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(ATHLETE_NOT_FOUND + id));
 
         return new AthleteResponse(
             athlete.getId(),
@@ -60,8 +61,7 @@ public class AthleteService {
             athlete.getHeight(),
             athlete.getWeight(),
             athlete.getpercentageFat()
-    );
-  
+        );
     }
 
 
@@ -90,7 +90,8 @@ public class AthleteService {
                 .ifPresent(existAthlete::setWeight);
 
             Optional.ofNullable(updateAthlete.percentageFat())
-                .ifPresent(existAthlete::setpercentageFat);    
+                .ifPresent(existAthlete::setpercentageFat);
+
                 
                 return athleterepository.save(existAthlete);
      }
