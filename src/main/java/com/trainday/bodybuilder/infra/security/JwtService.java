@@ -22,9 +22,9 @@ public class JwtService{
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String email){
+    public String generateToken(String id){
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + experation))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
@@ -47,6 +47,15 @@ public class JwtService{
         }catch (JwtException e){
             return false;
         }
+    }
+
+    public String extractUsername(String token) {
+          return Jwts.parserBuilder()
+                   .setSigningKey(getKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
     }
     
 

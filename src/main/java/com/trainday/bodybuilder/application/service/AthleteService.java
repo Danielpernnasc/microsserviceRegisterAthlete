@@ -3,6 +3,7 @@ package com.trainday.bodybuilder.application.service;
 
 import java.util.Optional;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.trainday.bodybuilder.api.DTO.request.AthleteRequest;
@@ -11,6 +12,7 @@ import com.trainday.bodybuilder.domain.model.Athlete;
 import com.trainday.bodybuilder.domain.model.Login;
 import com.trainday.bodybuilder.domain.repository.AthleteRepository;
 import com.trainday.bodybuilder.domain.repository.LoginRepository;
+import com.trainday.bodybuilder.infra.security.JwtService;
 
 @Service
 public class AthleteService {
@@ -18,14 +20,17 @@ public class AthleteService {
     private final AthleteRepository athleterepository;
     private final LoginRepository loginRepository;
     private static final String ATHLETE_NOT_FOUND = "Athlete not found with id ";
+    private final JwtService jwtService;
 
 
     public AthleteService(
         AthleteRepository athleterepository,
-        LoginRepository loginRepository
+        LoginRepository loginRepository,
+        JwtService jwtService
     ){
         this.athleterepository = athleterepository;
         this.loginRepository = loginRepository;
+        this.jwtService = jwtService;
     }
 
     public Athlete createAthlete(AthleteRequest reqAthlete){
@@ -47,9 +52,14 @@ public class AthleteService {
         return athleterepository.save(athlete);
         
     }
-    public AthleteResponse getAthleteById(String id) {
-        
-        Athlete athlete = athleterepository.findById(id)
+    public AthleteResponse getAthleteById(String id  /*String token*/) {
+        /*, String token*/
+
+         //String jwt = token.replace("Bearer ", "");
+        //String userId = jwtService.extractUsername(jwt); 
+
+        //Athlete athlete = athleterepository.findByIdAndEmail(id ,userId)
+        Athlete athlete = athleterepository.findById(id /*,userId*/)
                 .orElseThrow(() -> new RuntimeException(ATHLETE_NOT_FOUND + id));
 
         return new AthleteResponse(
@@ -67,7 +77,13 @@ public class AthleteService {
 
 
 
-     public Athlete updateAthlete(String id,  AthleteRequest updateAthlete){
+     private String getUserIdFromToken() {
+		  return SecurityContextHolder.getContext()
+            .getAuthentication()
+            .getName();
+	}
+
+	 public Athlete updateAthlete(String id,  AthleteRequest updateAthlete){
            Athlete existAthlete = athleterepository.findById(id)
         .orElseThrow(() -> new RuntimeException(ATHLETE_NOT_FOUND));
 

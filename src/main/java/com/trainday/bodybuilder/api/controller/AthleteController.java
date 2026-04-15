@@ -1,7 +1,6 @@
 package com.trainday.bodybuilder.api.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.trainday.bodybuilder.api.DTO.request.AthleteRequest;
@@ -15,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -44,7 +44,9 @@ public class AthleteController {
     }
 
     @GetMapping("/{id}")
-      public AthleteResponse findById(@PathVariable String id) {
+      public AthleteResponse findById(
+        @PathVariable String id
+    ) {
          return service.getAthleteById(id);
     
     }

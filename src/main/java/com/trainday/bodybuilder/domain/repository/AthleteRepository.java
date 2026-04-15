@@ -6,13 +6,15 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.trainday.bodybuilder.domain.model.Athlete;
-import java.util.List;
+
 
 
 @Repository
 public interface AthleteRepository extends MongoRepository<Athlete, String> {
 
     Athlete save(Optional<Athlete> existAthlete);
+
+    Optional<Athlete> findByIdAndEmail(String id, String email);
 
 
 }
