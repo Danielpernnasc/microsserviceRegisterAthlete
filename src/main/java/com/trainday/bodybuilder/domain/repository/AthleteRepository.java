@@ -16,5 +16,7 @@ public interface AthleteRepository extends MongoRepository<Athlete, String> {
 
     Optional<Athlete> findByIdAndEmail(String id, String email);
 
+    void deleteById(Athlete athlete);
+
 
 }

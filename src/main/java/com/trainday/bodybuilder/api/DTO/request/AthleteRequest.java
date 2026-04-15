@@ -7,7 +7,7 @@ public record AthleteRequest(
     Long age,
     Double height,
     Double weight,
-    Long percentageFat
+    Long percentagefat
 ){
   
 }    

@@ -8,5 +8,5 @@ public record AthleteResponse(
         Long age,
         Double height,
         Double weight,
-        Long percentageFat
+        Long percentagefat
 ) {}

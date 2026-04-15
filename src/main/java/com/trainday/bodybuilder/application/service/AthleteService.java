@@ -45,7 +45,7 @@ public class AthleteService {
         athlete.setAge(reqAthlete.age());
         athlete.setHeight(reqAthlete.height());
         athlete.setWeight(reqAthlete.weight());
-        athlete.setpercentageFat(reqAthlete.percentageFat());
+        athlete.setpercentageFat(reqAthlete.percentagefat());
         athlete.setUserId(user.getId());
 
 
@@ -74,15 +74,6 @@ public class AthleteService {
         );
     }
 
-
-
-
-     private String getUserIdFromToken() {
-		  return SecurityContextHolder.getContext()
-            .getAuthentication()
-            .getName();
-	}
-
 	 public Athlete updateAthlete(String id,  AthleteRequest updateAthlete){
            Athlete existAthlete = athleterepository.findById(id)
         .orElseThrow(() -> new RuntimeException(ATHLETE_NOT_FOUND));
@@ -105,10 +96,22 @@ public class AthleteService {
             Optional.ofNullable(updateAthlete.weight())
                 .ifPresent(existAthlete::setWeight);
 
-            Optional.ofNullable(updateAthlete.percentageFat())
+            Optional.ofNullable(updateAthlete.percentagefat())
                 .ifPresent(existAthlete::setpercentageFat);
 
                 
                 return athleterepository.save(existAthlete);
+     }
+
+    public void deleteAthlete(String id) {
+
+      Athlete athlete = athleterepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Not found the id for Delete"));
+         String userId = athlete.getUserId();
+
+        athleterepository.deleteById(id);   // 👈 primeiro
+        System.out.println("DELETE ID: " + id);
+        loginRepository.deleteById(userId); // 👈 depois
+        System.out.println("USER ID: " + userId);
      }
 }

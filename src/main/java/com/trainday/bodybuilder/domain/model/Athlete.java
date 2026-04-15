@@ -18,13 +18,13 @@ public class Athlete {
     private Double height;
     private Double weight;
     @Field("percentagefat")
-    private Long percentageFat;
+    private Long percentagefat;
     private String userId;
 
     public Athlete(){}
 
     public Athlete(
-        String id, String cpf, String name, String email, Long age, Double height, Double weight, Long percentageFat, String userId
+        String id, String cpf, String name, String email, Long age, Double height, Double weight, Long percentagefat, String userId
     ){
         this.id = id;
         this.cpf = cpf;
@@ -33,7 +33,7 @@ public class Athlete {
         this.age = age;
         this.height = height;
         this.weight = weight;
-        this.percentageFat = percentageFat;
+        this.percentagefat = percentagefat;
         this.userId = userId;
     }
 
@@ -95,11 +95,11 @@ public class Athlete {
     }
 
     public Long getpercentageFat(){
-        return percentageFat;
+        return percentagefat;
     }
 
-    public void setpercentageFat(Long percentageFat){
-        this.percentageFat = percentageFat;
+    public void setpercentageFat(Long percentagefat){
+        this.percentagefat = percentagefat;
     }
 
     public String getUserId(){
