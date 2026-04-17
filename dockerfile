@@ -1,0 +1,12 @@
+# ✅ Stage 1 — build
+FROM eclipse-temurin:11-jdk-alpine AS build
+WORKDIR /app
+COPY . .
+RUN ./mvnw clean package -DskipTests
+
+# ✅ Stage 2 — imagem final leve
+FROM eclipse-temurin:11-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
