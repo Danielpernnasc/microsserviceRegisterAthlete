@@ -1,0 +1,65 @@
+package com.trainday.bodybuilder.domain.entiy;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import com.trainday.bodybuilder.domain.model.Athlete;
+
+public class AthleteTest {
+
+
+    @Test
+    void shouldTestCreateAthlete() {
+        Athlete athlete = new Athlete(
+            "1",
+            "29104828801",
+            "Daniel Péricles do Nascimento",
+            "dpericles6@gmail.com",
+            45L,
+            1.82,
+            105.40,
+            12L,
+            "user-1"
+        );
+
+        assertEquals("1", athlete.getId());
+        assertEquals("29104828801", athlete.getCPF());
+        assertEquals("Daniel Péricles do Nascimento", athlete.getName());
+        assertEquals("dpericles6@gmail.com", athlete.getEmail());
+        assertEquals(45L, athlete.getAge());
+        assertEquals(1.82, athlete.getHeight());
+        assertEquals(105.40, athlete.getWeight());
+        assertEquals(12L, athlete.getpercentageFat());
+        assertEquals("user-1", athlete.getUserId());
+    }
+
+    @Test
+    void shouldSetAthleteData() {
+        Athlete athlete = new Athlete();
+
+        athlete.setId("2");
+        athlete.setCPF("12345678900");
+        athlete.setName("Teste");
+        athlete.setEmail("teste@email.com");
+        athlete.setAge(30L);
+        athlete.setHeight(1.75);
+        athlete.setWeight(80.0);
+        athlete.setpercentageFat(10L);
+        athlete.setUserId("user-2");
+
+        assertEquals("2", athlete.getId());
+        assertEquals("12345678900", athlete.getCPF());
+        assertEquals("Teste", athlete.getName());
+        assertEquals("teste@email.com", athlete.getEmail());
+        assertEquals(30L, athlete.getAge());
+        assertEquals(1.75, athlete.getHeight());
+        assertEquals(80.0, athlete.getWeight());
+        assertEquals(10L, athlete.getpercentageFat());
+        assertEquals("user-2", athlete.getUserId());
+
+        
+    }
+}
+
+

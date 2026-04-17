@@ -18,8 +18,14 @@ public class JwtService{
     @Value("${jwt.expiration}")
     private Long experation;
 
+
     private Key getKey(){
         return Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
+    
+    public Key testgetKey(){
+        return getKey();
     }
 
     public String generateToken(String id){
@@ -57,6 +63,8 @@ public class JwtService{
                     .getBody()
                     .getSubject();
     }
+
+    
     
 
 }

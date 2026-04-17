@@ -37,7 +37,6 @@ public class Athlete {
         this.userId = userId;
     }
 
-
     public String getId(){
         return id;
     }
@@ -74,7 +73,7 @@ public class Athlete {
         return age;
     }
 
-    public void setAge(Long age) {
+    public void setAge(long age) {
         this.age = age;
     }
 
@@ -82,7 +81,7 @@ public class Athlete {
         return height;
     }
 
-    public void setHeight(Double height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -90,7 +89,7 @@ public class Athlete {
         return weight;
     }
 
-    public void setWeight(Double weight){
+    public void setWeight(double weight){
         this.weight = weight;
     }
 

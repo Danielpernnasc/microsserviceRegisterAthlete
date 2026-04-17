@@ -34,8 +34,8 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                 )
                   
-                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                    .build();
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
 
     }
 

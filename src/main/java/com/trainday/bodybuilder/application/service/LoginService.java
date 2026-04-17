@@ -35,6 +35,7 @@ public class LoginService {
 
     public LoginResponse createLogin(LoginRequest loginRequest ){
         Login login = new Login();
+        login.setId(loginRequest.id());
         login.setEmail(loginRequest.email());
         login.setPassword(passwordEncoder.encode(loginRequest.password()));
          Login saved = loginRepository.save(login);

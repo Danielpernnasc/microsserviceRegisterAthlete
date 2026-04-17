@@ -10,3 +10,5 @@ public record AthleteResponse(
         Double weight,
         Long percentagefat
 ) {}
+
+    
