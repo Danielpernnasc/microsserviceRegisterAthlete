@@ -2,10 +2,11 @@ package com.trainday.bodybuilder.domain.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 
 
-@Document(collection = "athletes")
+@Document(collection = "athlete")
 public class Athlete {
 
     @Id
@@ -16,8 +17,9 @@ public class Athlete {
     private Long age;
     private Double height;
     private Double weight;
+    @Field("percentagefat")
     private Long percentagefat;
-   private String userId;
+    private String userId;
 
     public Athlete(){}
 
@@ -34,7 +36,6 @@ public class Athlete {
         this.percentagefat = percentagefat;
         this.userId = userId;
     }
-
 
     public String getId(){
         return id;
@@ -72,7 +73,7 @@ public class Athlete {
         return age;
     }
 
-    public void setAge(Long age) {
+    public void setAge(long age) {
         this.age = age;
     }
 
@@ -80,7 +81,7 @@ public class Athlete {
         return height;
     }
 
-    public void setHeight(Double height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -88,7 +89,7 @@ public class Athlete {
         return weight;
     }
 
-    public void setWeight(Double weight){
+    public void setWeight(double weight){
         this.weight = weight;
     }
 
@@ -96,7 +97,7 @@ public class Athlete {
         return percentagefat;
     }
 
-    public void setPercentageFat(Long percentagefat){
+    public void setpercentageFat(Long percentagefat){
         this.percentagefat = percentagefat;
     }
 
@@ -107,9 +108,5 @@ public class Athlete {
     public void setUserId(String userId){
         this.userId = userId;
     }
-
-
-
-
 
 }

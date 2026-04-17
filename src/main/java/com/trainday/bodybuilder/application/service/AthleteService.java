@@ -1,6 +1,6 @@
 package com.trainday.bodybuilder.application.service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -20,12 +20,15 @@ public class AthleteService {
     private static final String ATHLETE_NOT_FOUND = "Athlete not found with id ";
 
 
+
     public AthleteService(
         AthleteRepository athleterepository,
         LoginRepository loginRepository
+     
     ){
         this.athleterepository = athleterepository;
         this.loginRepository = loginRepository;
+    
     }
 
     public Athlete createAthlete(AthleteRequest reqAthlete){
@@ -40,31 +43,30 @@ public class AthleteService {
         athlete.setAge(reqAthlete.age());
         athlete.setHeight(reqAthlete.height());
         athlete.setWeight(reqAthlete.weight());
-        athlete.setPercentageFat(reqAthlete.percentagefat());
+        athlete.setpercentageFat(reqAthlete.percentagefat());
         athlete.setUserId(user.getId());
 
 
         return athleterepository.save(athlete);
         
     }
+    public AthleteResponse getAthleteById(String id) {
+        Athlete athlete = athleterepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(ATHLETE_NOT_FOUND + id));
 
-   public List<AthleteResponse> searchAthlete(){
-        return athleterepository.findAll()
-                .stream()
-                .map(a -> new AthleteResponse(
-                    a.getId(),
-                    a.getCPF(),
-                    a.getName(),
-                    a.getEmail(),
-                    a.getAge(),
-                    a.getHeight(),
-                    a.getWeight(),
-                    a.getpercentageFat()
-                ))
-                .toList(); // MUITO IMPORTANTE
+        return new AthleteResponse(
+            athlete.getId(),
+            athlete.getCPF(),
+            athlete.getName(),
+            athlete.getEmail(),
+            athlete.getAge(),
+            athlete.getHeight(),
+            athlete.getWeight(),
+            athlete.getpercentageFat()
+        );
     }
 
-     public Athlete updateAthlete(String id,  AthleteRequest updateAthlete){
+	 public Athlete updateAthlete(String id,  AthleteRequest updateAthlete){
            Athlete existAthlete = athleterepository.findById(id)
         .orElseThrow(() -> new RuntimeException(ATHLETE_NOT_FOUND));
 
@@ -87,8 +89,21 @@ public class AthleteService {
                 .ifPresent(existAthlete::setWeight);
 
             Optional.ofNullable(updateAthlete.percentagefat())
-                .ifPresent(existAthlete::setPercentageFat);    
+                .ifPresent(existAthlete::setpercentageFat);
+
                 
                 return athleterepository.save(existAthlete);
+     }
+
+    public void deleteAthlete(String id) {
+
+      Athlete athlete = athleterepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Not found the id for Delete"));
+         String userId = athlete.getUserId();
+
+        athleterepository.deleteById(id);   // 👈 primeiro
+        System.out.println("DELETE ID: " + id);
+        loginRepository.deleteById(userId); // 👈 depois
+        System.out.println("USER ID: " + userId);
      }
 }
