@@ -102,8 +102,6 @@ public class AthleteService {
          String userId = athlete.getUserId();
 
         athleterepository.deleteById(id);   // 👈 primeiro
-        System.out.println("DELETE ID: " + id);
         loginRepository.deleteById(userId); // 👈 depois
-        System.out.println("USER ID: " + userId);
      }
 }
