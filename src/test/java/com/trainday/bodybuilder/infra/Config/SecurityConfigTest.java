@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.mongodb.autoconfigure.MongoAutoConfiguration;
-import org.springframework.boot.data.mongodb.autoconfigure.DataMongoAutoConfiguration;
-import org.springframework.boot.data.mongodb.autoconfigure.DataMongoRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -32,7 +32,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.trainday.bodybuilder.api.controller.AuthController;
 import com.trainday.bodybuilder.application.service.LoginService;
-import com.trainday.bodybuilder.infra.Config.SecurityConfig;
 import com.trainday.bodybuilder.infra.Service.JwtService;
 import com.trainday.bodybuilder.infra.security.JwtAuthFilter;
 
@@ -43,8 +42,8 @@ import jakarta.servlet.ServletException;
 @ContextConfiguration(classes = SecurityConfigTest.TestBeans.class)
 @WebAppConfiguration
 @TestPropertySource(properties = {
-    "jwt.secret=chave-falsa-para-teste-de-seguranca-2026",
-    "jwt.expiration=3600000"
+        "jwt.secret=chave-falsa-para-teste-de-seguranca-2026",
+        "jwt.expiration=3600000"
 })
 public class SecurityConfigTest {
 
@@ -80,9 +79,8 @@ public class SecurityConfigTest {
     void apiDocsNaoDeveRetornarForbidden() throws Exception {
         mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(result -> assertNotEquals(
-                    403,
-                    result.getResponse().getStatus()
-                ));
+                        403,
+                        result.getResponse().getStatus()));
     }
 
     @TestConfiguration
@@ -90,9 +88,9 @@ public class SecurityConfigTest {
     @EnableWebSecurity
     @Import(SecurityConfig.class)
     @EnableAutoConfiguration(exclude = {
-        MongoAutoConfiguration.class,
-        DataMongoAutoConfiguration.class,
-        DataMongoRepositoriesAutoConfiguration.class
+            MongoAutoConfiguration.class,
+            MongoDataAutoConfiguration.class,
+            MongoRepositoriesAutoConfiguration.class
     })
     static class TestBeans {
 
@@ -110,9 +108,9 @@ public class SecurityConfigTest {
         JwtService jwtService() {
             JwtService jwtService = new JwtService();
             org.springframework.test.util.ReflectionTestUtils.setField(
-                jwtService, "secret", "chave-falsa-para-teste-de-seguranca-2026");
+                    jwtService, "secret", "chave-falsa-para-teste-de-seguranca-2026");
             org.springframework.test.util.ReflectionTestUtils.setField(
-                jwtService, "expiration", 3600000L);
+                    jwtService, "expiration", 3600000L);
             return jwtService;
         }
 

@@ -1,0 +1,33 @@
+package com.trainday.bodybuilder.infra.Config;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import feign.RequestInterceptor;
+
+import org.springframework.web.context.request.RequestContextHolder;
+
+@Configuration
+public class FeignConfig {
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return template -> {
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+                    .getRequestAttributes();
+
+            if (attributes != null) {
+                HttpServletRequest request = attributes.getRequest();
+
+                String authorization = request.getHeader("Authorization");
+                System.out.println("FEIGN AUTH = " + authorization);
+
+                if (authorization != null) {
+                    template.header("Authorization", authorization);
+                }
+
+            }
+        };
+    }
+}

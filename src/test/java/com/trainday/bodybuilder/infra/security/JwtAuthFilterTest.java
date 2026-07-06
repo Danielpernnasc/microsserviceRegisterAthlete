@@ -1,7 +1,5 @@
 package com.trainday.bodybuilder.infra.security;
 
-
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -9,7 +7,7 @@ import static org.mockito.Mockito.*;
 import java.io.IOException;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.trainday.bodybuilder.infra.Service.JwtService;
@@ -26,6 +23,7 @@ import com.trainday.bodybuilder.infra.Service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtAuthFilterTest {
@@ -39,19 +37,21 @@ public class JwtAuthFilterTest {
     @Mock
     FilterChain filterChain;
 
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpServletResponse response;
+
     @InjectMocks
     JwtAuthFilter jwtAuthFilter;
-
-
-
-  
 
     @AfterEach
     void clearContext() {
         SecurityContextHolder.clearContext();
     }
 
-       @Test
+    @Test
     void shouldNotFilter_swaggerPaths() {
         HttpServletRequest request = mock(HttpServletRequest.class);
 
@@ -85,7 +85,7 @@ public class JwtAuthFilterTest {
     }
 
     @Test
-    void shouldContinueFilterAuthenticateHeader() throws ServletException, IOException{
+    void shouldContinueFilterAuthenticateHeader() throws ServletException, IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -98,11 +98,11 @@ public class JwtAuthFilterTest {
     }
 
     @Test
-    void shouldNotAuthenticateHeader() throws ServletException, IOException{
+    void shouldNotAuthenticateHeader() throws ServletException, IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         request.addHeader("Authorization", "Bearer token-invalid");
-        
+
         when(jwtService.isTokenValid("token-invalid")).thenReturn(false);
 
         jwtAuthFilter.doFilterInternal(request, response, filterChain);
@@ -132,25 +132,22 @@ public class JwtAuthFilterTest {
         verify(filterChain).doFilter(request, response);
     }
 
-   @Test
+    @Test
     void shouldSkipJwtValidationForAthletePath() throws Exception {
 
-        MockHttpServletRequest request =
-                new MockHttpServletRequest();
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
-            request.setMethod("GET");
-            request.setServletPath("/athlete/123");
+        request.setMethod("GET");
+        request.setServletPath("/athlete/123");
 
-        MockHttpServletResponse response =
-                new MockHttpServletResponse();
+        MockHttpServletResponse response = new MockHttpServletResponse();
 
         FilterChain filterChain = mock(FilterChain.class);
 
         jwtAuthFilter.doFilterInternal(
                 request,
                 response,
-                filterChain
-        );
+                filterChain);
 
         verify(filterChain).doFilter(request, response);
 
@@ -177,8 +174,4 @@ public class JwtAuthFilterTest {
         verify(filterChain).doFilter(request, response);
     }
 
-
-
-
-    
 }

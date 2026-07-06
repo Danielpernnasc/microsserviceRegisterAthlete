@@ -39,32 +39,30 @@ public class LoginServiceTest {
 
     @Mock
     AuthenticationManager authenticationManager;
-    
+
     @Mock
     PasswordEncoder passwordEncoder;
 
     @InjectMocks
     LoginService loginservice;
 
-
     @Test
-    void shouldCreateLogin(){
+    void shouldCreateLogin() {
         RegisterRequest request = new RegisterRequest(
 
-            "999.999.999-99",
-                LocalDate.of(2000,1,1),
-            "athlete@host.com",
+                "999.999.999-99",
+                LocalDate.of(2000, 1, 1),
+                "athlete@host.com",
                 "123456",
-                Role.ATHLETE
-        );
+                Role.ATHLETE);
 
         when(passwordEncoder.encode("123456")).thenReturn("senha-criptografada");
         when(loginrepository.save(any(Login.class)))
-            .thenAnswer(invocation -> {
-                Login savedLogin = invocation.getArgument(0);
-                savedLogin.setId("id-user");
-                return savedLogin;
-            });
+                .thenAnswer(invocation -> {
+                    Login savedLogin = invocation.getArgument(0);
+                    savedLogin.setId("id-user");
+                    return savedLogin;
+                });
 
         LoginResponse service = loginservice.createLogin(request);
 
@@ -77,7 +75,7 @@ public class LoginServiceTest {
 
     }
 
-  @Test
+    @Test
     void shoudauthenticate() {
 
         Login user = new Login();
@@ -91,31 +89,30 @@ public class LoginServiceTest {
         athlete.setUserId("user123");
 
         when(loginrepository.findByEmail("athlete@host.com"))
-            .thenReturn(Optional.of(user));
+                .thenReturn(Optional.of(user));
 
         when(athleterepository.findByUserId("user123"))
-            .thenReturn(Optional.of(athlete));
+                .thenReturn(Optional.of(athlete));
 
-      user.setPassword("senhaCriptografada");
+        user.setPassword("senhaCriptografada");
 
-      when(passwordEncoder.matches(
-              "123456",
-              "senhaCriptografada"))
-              .thenReturn(true);
+        when(passwordEncoder.matches(
+                "123456",
+                "senhaCriptografada"))
+                .thenReturn(true);
 
         when(jwtservice.generateToken(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(Role.class)))
-            .thenReturn("token_fake");
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(Role.class)))
+                .thenReturn("token_fake");
 
         String token = loginservice.authenticate(
-            new LoginRequest( "athlete@host.com", "123456")
-        );
+                new LoginRequest("athlete@host.com", "123456"));
 
         assertEquals("token_fake", token);
-}
+    }
 
 }
